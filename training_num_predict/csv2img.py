@@ -2,32 +2,37 @@ import numpy as np
 import cv2
 import os
 import pandas as pd
+import shutil
+import random
 
-# Define input and output directories
+# --- Define Input and Output Directories ---
 datasets = [
     ("scanned_data/training_data/", "training_num_predict/nums_train/", list(range(1, 10))),  
     ("scanned_data/testing_data/", "training_num_predict/nums_test/", list(range(1, 10))), 
     ("scanned_data/training_data_zeros/", "training_num_predict/nums_train/", [0] * 9)  
 ]
 
-# Process each dataset (training & testing)
+# --- Clear Folders Function ---
+def clear_folders(folders):
+    for folder in folders:
+        for digit_value in range(10):  # For each digit (0-9)
+            digit_folder = os.path.join(folder, str(digit_value))
+            if os.path.exists(digit_folder):
+                for file in os.listdir(digit_folder):
+                    file_path = os.path.join(digit_folder, file)
+                    if os.path.isfile(file_path):
+                        os.remove(file_path)
+                print(f"Cleared folder: {digit_folder}")
+
+# Clear both nums_train and nums_test folders
+clear_folders(["training_num_predict/nums_train", "training_num_predict/nums_test"])
+
+# --- Process Datasets (Training & Testing) ---
 for input_folder, output_folder, digit_order in datasets:
-    # Ensure output directory exists
     os.makedirs(output_folder, exist_ok=True)
 
     # Get list of CSV files in the input folder
     csv_files = [f for f in os.listdir(input_folder) if f.endswith(".csv")]
-
-    # Clear the digit folders before processing new data
-    for digit_value in range(10):  # For each digit (0-9)
-        digit_folder = os.path.join(output_folder, str(digit_value))
-
-        # Remove all images in the digit folder if it exists
-        if os.path.exists(digit_folder):
-            for file in os.listdir(digit_folder):
-                file_path = os.path.join(digit_folder, file)
-                if os.path.isfile(file_path):
-                    os.remove(file_path)
 
     # Process each CSV file
     for csv_file in csv_files:
@@ -64,6 +69,8 @@ for input_folder, output_folder, digit_order in datasets:
             # Create a subfolder for each digit (e.g., 5, 3, 0, etc.)
             digit_folder = os.path.join(output_folder, str(digit_value))
 
+            os.makedirs(digit_folder, exist_ok=True)
+
             # Save each digit as an image
             save_path = os.path.join(digit_folder, f"{file_base_name}_{i+1}.png")
             cv2.imwrite(save_path, digit_img)
@@ -71,3 +78,25 @@ for input_folder, output_folder, digit_order in datasets:
             print(f"Saved: {save_path}")
 
 print("✅ All CSV files processed and converted into images for both datasets!")
+
+# --- Move Zero Image from Train to Test ---
+train_zero_folder = "training_num_predict/nums_train/0"
+test_zero_folder = "training_num_predict/nums_test/0"
+
+os.makedirs(test_zero_folder, exist_ok=True)
+
+# Get list of all image files in the train zero folder
+train_zero_images = [f for f in os.listdir(train_zero_folder) if f.endswith(".png")]
+
+# Move one zero image from train to test folder if available
+if train_zero_images:
+    image_to_move = random.choice(train_zero_images)
+
+    source_path = os.path.join(train_zero_folder, image_to_move)
+    destination_path = os.path.join(test_zero_folder, image_to_move)
+
+    shutil.move(source_path, destination_path)
+
+    print(f"Moved {image_to_move} from nums_train/0 to nums_test/0")
+else:
+    print("No zero images found in the training folder.")
