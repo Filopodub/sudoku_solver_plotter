@@ -4,7 +4,8 @@ import cv2
 import matplotlib.pyplot as plt
 
 # --- Load and Process CSV Data ---
-file_path = "scanned_data/training_data/scanned_data.csv"
+file_path = "scanned_data/training2/training_data/scanned_data3.csv"
+# file_path = "scanned_data.csv"
 data = pd.read_csv(file_path, header=None)
 
 # Convert values to numeric type and to numpy array
@@ -49,3 +50,4 @@ for ax in axs:
     ax.axis("off") 
 
 plt.tight_layout() 
+plt.show()
