@@ -6,7 +6,7 @@ import shutil
 import random
 
 # --- Define Input and Output Directories ---
-training_session = "scanned_data/training1/"
+training_session = "scanned_data/training2/"
 
 datasets = [
     (training_session + "training_data/", "training_num_predict/nums_train/", list(range(1, 10))),  
@@ -42,10 +42,10 @@ for input_folder, output_folder, digit_order in datasets:
         csv_path = os.path.join(input_folder, csv_file)
         data = pd.read_csv(csv_path, header=None).values  # Load as NumPy array
 
-        # Ensure data is in correct shape
-        if data.shape != (46, 375):
-            print(f"Skipping {csv_file}: Invalid shape {data.shape}")
-            continue
+        # # Ensure data is in correct shape
+        # if data.shape != (40, 375):
+        #     print(f"Skipping {csv_file}: Invalid shape {data.shape}")
+        #     continue
 
         data = data[:, 5:370]  # Crop to the desired range
 

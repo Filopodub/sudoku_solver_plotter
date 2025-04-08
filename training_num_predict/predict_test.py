@@ -5,7 +5,7 @@ import cv2
 import os
 
 # --- Load the Trained Model ---
-model = tf.keras.models.load_model("number_predictor_model.h5")
+model = tf.keras.models.load_model("number_predictor_model2.h5")
 
 # --- Function to Preprocess Image for Prediction ---
 def preprocess_image(image_path):
