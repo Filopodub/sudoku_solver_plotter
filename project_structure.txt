@@ -1,0 +1,50 @@
+sudoku_scanner/              # Root project directory
+│
+├── src/                    # Source code
+│   ├── __init__.py
+│   ├── data/              # Data processing and management
+│   │   ├── __init__.py
+│   │   ├── csv_processor.py     # (formerly csv2img.py)
+│   │   ├── data_augmentation.py # (combines data_generator.py and data_generator_lin.py)
+│   │   └── dataset_loader.py    # Functions for loading/managing datasets
+│   │
+│   ├── models/            # Model definitions and training
+│   │   ├── __init__.py
+│   │   ├── cnn_model.py        # CNN model architecture
+│   │   ├── train.py           # (formerly predict_train.py)
+│   │   └── predict.py         # (formerly predict_test.py)
+│   │
+│   ├── utils/             # Utility functions
+│   │   ├── __init__.py
+│   │   ├── image_processing.py
+│   │   └── visualization.py    # (formerly sudoku_plotter.py)
+│   │
+│   └── sudoku/            # Sudoku-specific functionality
+│       ├── __init__.py
+│       ├── solver.py           # (formerly sudoku_solver.py)
+│       └── grid_processor.py   # Sudoku grid processing functions
+│
+├── data/                  # Data directories
+│   ├── raw/               # Original scanned data
+│   ├── processed/         # Processed images
+│   │   ├── original/      # (formerly nums_original)
+│   │   ├── augmented/     # (formerly nums_augmented)
+│   │   └── augmented_linear/ # (formerly nums_augmented_linear)
+│   │
+│   └── test/             # Test datasets
+│
+├── models/               # Saved models
+│   └── trained/         # Trained model files (.h5)
+│
+├── tests/               # Unit tests
+│   ├── __init__.py
+│   ├── test_image_processing.py
+│   └── test_sudoku_solver.py
+│
+├── notebooks/           # Jupyter notebooks for experimentation
+│   └── model_experimentation.ipynb
+│
+├── requirements.txt     # Project dependencies
+├── setup.py            # Package setup file
+├── README.md           # Project documentation
+└── .gitignore         # Git ignore file
